@@ -127,8 +127,16 @@ class Murcielago {
     this.width = 120;
     this.height = 120;
     this.transformado = false
-    this.tiempo = Math.random() * 2 * Math.PI; // Fase inicial aleatoria
-    this.velocidadTiempo = 0.1 * (0.8 + Math.random() * 0.4); // Velocidad de oscilación variable
+    this.tiempo = Math.random() * 4 * Math.PI; // Fase inicial aleatoria
+    this.velocidadTiempo = 0.1 * (0.9 + Math.random() * 0.7); // Velocidad de oscilación variable
+
+// Añadir variación inicial
+    this.x += Math.random() * 20 - 10; // Desplazamiento horizontal de ±10px
+    this.y += Math.random() * 10 - 5;  // Desplazamiento vertical de ±5px (opcional)
+    // Limitar las posiciones para que no se salgan
+    this.x = Math.max(0, Math.min(1200 - this.width, this.x));
+    this.y = Math.max(0, Math.min(240 - this.height, this.y));
+
 
     this.element = document.createElement("img");
     this.element.src = "imagenes/murcielago.png";
