@@ -2,8 +2,8 @@ class Game {
   constructor() {
     this.container = document.getElementById("game-container");
     this.puntosElement = document.getElementById("puntos");
-    this.personaje = null;
-    this.monedas = [];
+    this.hada = null;
+    this.murcielago = [];
     this.puntuacion = 0;
 
     this.crearEscenario();
@@ -11,27 +11,27 @@ class Game {
   }
 
   crearEscenario() {
-    this.personaje = new Personaje();
-    this.container.appendChild(this.personaje.element);
+    this.hada = new Hada();
+    this.container.appendChild(this.hada.element);
 
-    for (let i = 0; i < 5; i++) {
-      const moneda = new Moneda();
-      this.monedas.push(moneda);
-      this.container.appendChild(moneda.element);
+    for (let i = 0; i < 10; i++) {
+      const murcielago = new Murcielago();
+      this.murcielago.push(murcielago);
+      this.container.appendChild(murcielago.element);
     }
   }
 
   agregarEventos() {
-    window.addEventListener("keydown", (e) => this.personaje.mover(e));
+    window.addEventListener("keydown", (e) => this.hada.mover(e));
     this.checkColisiones();
   }
 
   checkColisiones() {
     setInterval(() => {
-      this.monedas.forEach((moneda, index) => {
-        if (this.personaje.colisionaCon(moneda)) {
-          this.container.removeChild(moneda.element);
-          this.monedas.splice(index, 1);
+      this.murcielago.forEach((murcielago, index) => {
+        if (this.hada.colisionaCon(murcielago)) {
+          this.container.removeChild(murcielago.element);
+          this.murcielago.splice(index, 1);
           this.actualizarPuntuacion(10);
         }
       });
@@ -44,19 +44,25 @@ class Game {
   }
 }
 
-class Personaje {
+class Hada {
   constructor() {
     this.x = 50;
-    this.y = 300;
-    this.width = 50;
-    this.height = 50;
+    this.y = 375; 
+    this.width = 200;
+    this.height = 200;
     this.velocidad = 10;
     this.saltando = false;
 
-    this.element = document.createElement("div");
-    this.element.classList.add("personaje");
+ 
 
-    this.actualizarPosicion();
+    this.element = document.createElement("img");
+    this.element.src = "imagenes/hada.png";
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
+    this.element.style.position = "absolute";
+    this.element.classList.add("hada");
+
+    this.actualizarPosicion(); 
   }
 
   mover(evento) {
@@ -73,7 +79,7 @@ class Personaje {
 
   saltar() {
     this.saltando = true;
-    let alturaMaxima = this.y - 250;
+    let alturaMaxima = this.y - 350;
 
     const salto = setInterval(() => {
       if (this.y > alturaMaxima) {
@@ -88,7 +94,7 @@ class Personaje {
 
   caer() {
     const gravedad = setInterval(() => {
-      if (this.y < 300) {
+      if (this.y < 370) {
         this.y += 10;
       } else {
         clearInterval(gravedad);
@@ -113,16 +119,46 @@ class Personaje {
   }
 }
 
-class Moneda {
+class Murcielago {
   constructor() {
-    this.x = Math.random() * 700 + 50;
-    this.y = Math.random() * 250 + 50;
-    this.width = 30;
-    this.height = 30;
-    this.element = document.createElement("div");
-    this.element.classList.add("moneda");
+    this.x = Math.random() * 800 + 100; /* 500 */
+    this.y = Math.random() * 180 + 100; /* 500 */
+    this.width = 120;
+    this.height = 120;
+    this.transformado = false
+    
+
+    this.element = document.createElement("img");
+    this.element.src = "imagenes/murcielago.png";
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
+    this.element.style.position = "absolute";
+    this.element.classList.add("murcielago");
 
     this.actualizarPosicion();
+  }
+
+
+  seleccionarColor() {
+    const colores = [
+      { nombre: "roja", src: "mariposa_roja.png", puntos: 5 },
+      { nombre: "amarilla", src: "mariposa_amarilla.png", puntos: 10 },
+      { nombre: "azul", src: "mariposa_azul.png", puntos: 15 },
+      { nombre: "rosa", src: "mariposa_rosa.png", puntos: 20 }
+    ];
+    const indice = Math.floor(Math.random() * colores.length);
+    return colores[indice];
+  }
+
+  transformar() {
+    if (!this.transformado) {
+      this.transformado = true;
+      this.element.src = this.color.src;
+      this.element.classList.add("transformacion");
+      setTimeout(() => {
+        this.element.classList.remove("transformacion");
+      }, 400);
+    }
   }
 
   actualizarPosicion() {
