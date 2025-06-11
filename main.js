@@ -31,9 +31,14 @@ class Game {
     setInterval(() => {
       this.murcielago.forEach((murcielago, index) => {
         if (this.hada.colisionaCon(murcielago)) {
-          this.container.removeChild(murcielago.element);
-          this.murcielago.splice(index, 1);
-          this.actualizarPuntuacion(10);
+          console.log("Colisión detectada con murciélago", index);
+          const color = murcielago.transformar(); // Transforma al colisionar
+          this.actualizarPuntuacion(color.puntos); // Suma puntos según el color
+          // Opcional: Eliminar después de un tiempo o dejar como mariposa
+          // setTimeout(() => {
+          //   this.container.removeChild(murcielago.element);
+          //   this.murcielago.splice(index, 1);
+          // }, 2000); // Elimina después de 2 segundos como ejemplo
         }
       });
     }, 100);
@@ -146,6 +151,7 @@ class Murcielago {
     this.element.classList.add("murcielago");
 
     this.actualizarPosicion();
+    this.color = this.seleccionarColor(); /* Inicializa el color */
   }
 
   volar() {
@@ -164,16 +170,25 @@ class Murcielago {
 
   seleccionarColor() {
     const colores = [
-      { nombre: "roja", src: "mariposa_roja.png", puntos: 5 },
-      { nombre: "amarilla", src: "mariposa_amarilla.png", puntos: 10 },
-      { nombre: "azul", src: "mariposa_azul.png", puntos: 15 },
-      { nombre: "rosa", src: "mariposa_rosa.png", puntos: 20 }
+      { nombre: "roja", src: "imagenes/mariposa-roja.png", puntos: 5 },
+      { nombre: "amarilla", src: "imagenes/mariposa-amarilla.png", puntos: 10 },
+      { nombre: "azul", src: "imagenes/mariposa-azul.png", puntos: 15 },
+      { nombre: "rosa", src: "imagenes/mariposa-rosa.png", puntos: 20 }
     ];
-    const indice = Math.floor(Math.random() * colores.length);
-    return colores[indice];
+    return colores[Math.floor(Math.random() * colores.length)];
   }
 
   transformar() {
+    if (!this.transformado) {
+      this.transformado = true;
+      this.element.src = this.color.src; // Cambia a la imagen de mariposa
+      this.velocidadTiempo *= 0.8; // Reduce la velocidad para un vuelo más suave
+      console.log(`Murciélago transformado en mariposa ${this.color.nombre} con ${this.color.puntos} puntos`);
+    }
+    return this.color; // Devuelve el objeto de color para los puntos
+  }
+
+ /* transformar() {
     if (!this.transformado) {
       this.transformado = true;
       this.element.src = this.color.src;
@@ -182,7 +197,7 @@ class Murcielago {
         this.element.classList.remove("transformacion");
       }, 400);
     }
-  }
+  } */
 
   actualizarPosicion() {
     this.element.style.left = `${this.x}px`;
