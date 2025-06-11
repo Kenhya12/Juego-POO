@@ -18,6 +18,7 @@ class Game {
       const murcielago = new Murcielago();
       this.murcielago.push(murcielago);
       this.container.appendChild(murcielago.element);
+      murcielago.volar(); // Inicia el movimiento al crearlo
     }
   }
 
@@ -126,7 +127,8 @@ class Murcielago {
     this.width = 120;
     this.height = 120;
     this.transformado = false
-    
+    this.tiempo = Math.random() * 2 * Math.PI; // Fase inicial aleatoria
+    this.velocidadTiempo = 0.1 * (0.8 + Math.random() * 0.4); // Velocidad de oscilación variable
 
     this.element = document.createElement("img");
     this.element.src = "imagenes/murcielago.png";
@@ -138,6 +140,19 @@ class Murcielago {
     this.actualizarPosicion();
   }
 
+  volar() {
+    const intervalo = 50 + Math.random() * 20; // Intervalo entre 50-70ms
+    this.intervalo = setInterval(() => {
+      this.tiempo += this.velocidadTiempo; // Incremento variable
+      const desplazamientoX = 10 * Math.sin(this.tiempo); // Oscilación horizontal
+      const desplazamientoY = 5 * Math.cos(this.tiempo); // Oscilación vertical
+      // Limita el movimiento dentro del 40% superior y el ancho
+      this.x = Math.max(0, Math.min(1000 - this.width, this.x + desplazamientoX));
+      this.y = Math.max(0, Math.min(240 - this.height, this.y + desplazamientoY));
+      this.actualizarPosicion();
+      console.log("Murciélago x:", this.x.toFixed(2), "y:", this.y.toFixed(2), "tiempo:", this.tiempo.toFixed(2));
+    }, intervalo); // Intervalo aleatorio por murciélago
+  }
 
   seleccionarColor() {
     const colores = [
