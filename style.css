@@ -18,10 +18,9 @@ body {
 
 h1 {
   font-family: "Italianno";
-  text-shadow: #464545;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   font-size: 70px;
-  color:rgb(11, 43, 78)
-  
+  color:rgb(90, 95, 88)
 }
 
 p {
@@ -41,17 +40,17 @@ button {
   font-weight: 700;
   color: rgb(220, 225, 230);
   margin-bottom: 10px;
-  background-color:  rgb(23, 82, 146);
+  background-color:  rgb(132, 54, 120);
   border-radius: 15px;
   border: #fff;
   padding: 15px;
   cursor: pointer;
+  box-shadow: 3px 5px 15px rgba(1, 1, 1, 0.6);
 }
 
 button:hover {
-  background-color: blueviolet;
+  background-color:  rgb(23, 82, 146);
   transform: translateY(-2px)
-  box-shadow 3px 5px 15px rgba(1, 1, 1, 0.6);
 }
 
 #puntos {
@@ -63,10 +62,11 @@ button:hover {
   width: 1000px;
   height: 600px;
   margin: 20px auto;
-  border: 15px solid rgb(23, 82, 146);
+  border: 15px solid rgb(104, 125, 112);
   background: #fff;
   overflow: hidden;
   border-radius: 30px;
+  box-shadow: 3px 5px 15px rgba(1, 1, 1, 0.8);
   z-index: 1;
 }
 

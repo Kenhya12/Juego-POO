@@ -5,8 +5,6 @@ class Game {
     this.hada = null;
     this.murcielago = [];
     this.puntuacion = 0;
-    this.sonidoColision = new Audio('audio/bell.mp3');
-    
 
     this.crearEscenario();
     this.agregarEventos();
@@ -42,53 +40,19 @@ class Game {
       console.warn("No se encontró el botón con id='reload'");
     }
     this.checkColisiones();
-  
   }
 
- /* checkColisiones() {
+  checkColisiones() {
     setInterval(() => {
       this.murcielago.forEach((murcielago, index) => {
-        if (this.hada.colisionaCon(murcielago)) {
+        if (this.hada.colisionaCon(murcielago) && !murcielago.transformado) {
           console.log("Colisión detectada con murciélago", index);
-          const color = murcielago.transformar(); // Transforma al colisionar
-          this.actualizarPuntuacion(color.puntos); // Suma puntos según el color
-          // Opcional: Eliminar después de un tiempo o dejar como mariposa
-          // setTimeout(() => {
-          //   this.container.removeChild(murcielago.element);
-          //   this.murcielago.splice(index, 1);
-          // }, 2000); // Elimina después de 2 segundos como ejemplo
+          const color = murcielago.transformar();
+          this.actualizarPuntuacion(color.puntos);
         }
       });
     }, 100);
-  } */
-
-    
-checkColisiones() {
-  setInterval(() => {
-    this.murcielago.forEach((murcielago, index) => {
-      if (this.hada.colisionaCon(murcielago)) {
-        console.log("Colisión detectada con murciélago", index);
-        const color = murcielago.transformar();
-        this.actualizarPuntuacion(color.puntos);
-        
-        // Solución: Reiniciar y reproducir
-        this.sonidoColision.currentTime = 0; // Rebobina al inicio
-        this.sonidoColision.play().catch(e => console.log("Error al reproducir sonido:", e));
-      }
-    });
-  }, 100);
-}
-
-habilitarSonido() {
-    if (!this.sonidoHabilitado) {
-        this.sonidoHabilitado = true;
-        const silentAudio = new Audio();
-        silentAudio.volume = 0;
-        silentAudio.play().then(() => {
-            alert("Sonido activado! El juego se ha reiniciado.");
-        }).catch(e => console.log("Error al habilitar audio:", e));
-    }
-}
+  }
 
   actualizarPuntuacion(puntos) {
     this.puntuacion += puntos;
@@ -104,8 +68,6 @@ class Hada {
     this.height = 200;
     this.velocidad = 10;
     this.saltando = false;
-
- 
 
     this.element = document.createElement("img");
     this.element.src = "imagenes/hada.png";
@@ -171,24 +133,22 @@ class Hada {
   }
 }
 
-
 class Murcielago {
   constructor() {
     this.x = Math.random() * 800 + 100; /* 500 */
     this.y = Math.random() * 180 + 100; /* 500 */
     this.width = 120;
     this.height = 120;
-    this.transformado = false
+    this.transformado = false;
     this.tiempo = Math.random() * 4 * Math.PI; // Fase inicial aleatoria
     this.velocidadTiempo = 0.1 * (0.9 + Math.random() * 0.7); // Velocidad de oscilación variable
 
-// Añadir variación inicial
+    // Añadir variación inicial
     this.x += Math.random() * 20 - 10; // Desplazamiento horizontal de ±10px
     this.y += Math.random() * 10 - 5;  // Desplazamiento vertical de ±5px (opcional)
     // Limitar las posiciones para que no se salgan
     this.x = Math.max(0, Math.min(1200 - this.width, this.x));
     this.y = Math.max(0, Math.min(240 - this.height, this.y));
-
 
     this.element = document.createElement("img");
     this.element.src = "imagenes/murcielago.png";
@@ -234,17 +194,6 @@ class Murcielago {
     }
     return this.color; // Devuelve el objeto de color para los puntos
   }
-
- /* transformar() {
-    if (!this.transformado) {
-      this.transformado = true;
-      this.element.src = this.color.src;
-      this.element.classList.add("transformacion");
-      setTimeout(() => {
-        this.element.classList.remove("transformacion");
-      }, 400);
-    }
-  } */
 
   actualizarPosicion() {
     this.element.style.left = `${this.x}px`;
