@@ -25,6 +25,7 @@ class Game {
   agregarEventos() {
     window.addEventListener("keydown", (e) => this.hada.mover(e));
     this.checkColisiones();
+<<<<<<< HEAD
 
     // Evento para el botón de recarga
     const reloadBtn = document.getElementById("reload");
@@ -40,15 +41,29 @@ class Game {
       console.warn("No se encontró el botón con id='reload'");
     }
     this.checkColisiones();
+=======
+>>>>>>> 8331dc50f85291e8b53d7d3152e765dcded96336
   }
 
   checkColisiones() {
     setInterval(() => {
       this.murcielago.forEach((murcielago, index) => {
+<<<<<<< HEAD
         if (this.hada.colisionaCon(murcielago) && !murcielago.transformado) {
           console.log("Colisión detectada con murciélago", index);
           const color = murcielago.transformar();
           this.actualizarPuntuacion(color.puntos);
+=======
+        if (this.hada.colisionaCon(murcielago)) {
+          console.log("Colisión detectada con murciélago", index);
+          const color = murcielago.transformar(); // Transforma al colisionar
+          this.actualizarPuntuacion(color.puntos); // Suma puntos según el color
+          // Opcional: Eliminar después de un tiempo o dejar como mariposa
+          // setTimeout(() => {
+          //   this.container.removeChild(murcielago.element);
+          //   this.murcielago.splice(index, 1);
+          // }, 2000); // Elimina después de 2 segundos como ejemplo
+>>>>>>> 8331dc50f85291e8b53d7d3152e765dcded96336
         }
       });
     }, 100);
@@ -69,6 +84,11 @@ class Hada {
     this.velocidad = 10;
     this.saltando = false;
 
+<<<<<<< HEAD
+=======
+ 
+
+>>>>>>> 8331dc50f85291e8b53d7d3152e765dcded96336
     this.element = document.createElement("img");
     this.element.src = "imagenes/hada.png";
     this.element.style.width = `${this.width}px`;
@@ -139,17 +159,29 @@ class Murcielago {
     this.y = Math.random() * 180 + 100; /* 500 */
     this.width = 120;
     this.height = 120;
+<<<<<<< HEAD
     this.transformado = false;
     this.tiempo = Math.random() * 4 * Math.PI; // Fase inicial aleatoria
     this.velocidadTiempo = 0.1 * (0.9 + Math.random() * 0.7); // Velocidad de oscilación variable
 
     // Añadir variación inicial
+=======
+    this.transformado = false
+    this.tiempo = Math.random() * 4 * Math.PI; // Fase inicial aleatoria
+    this.velocidadTiempo = 0.1 * (0.9 + Math.random() * 0.7); // Velocidad de oscilación variable
+
+// Añadir variación inicial
+>>>>>>> 8331dc50f85291e8b53d7d3152e765dcded96336
     this.x += Math.random() * 20 - 10; // Desplazamiento horizontal de ±10px
     this.y += Math.random() * 10 - 5;  // Desplazamiento vertical de ±5px (opcional)
     // Limitar las posiciones para que no se salgan
     this.x = Math.max(0, Math.min(1200 - this.width, this.x));
     this.y = Math.max(0, Math.min(240 - this.height, this.y));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8331dc50f85291e8b53d7d3152e765dcded96336
     this.element = document.createElement("img");
     this.element.src = "imagenes/murcielago.png";
     this.element.style.width = `${this.width}px`;
@@ -195,6 +227,20 @@ class Murcielago {
     return this.color; // Devuelve el objeto de color para los puntos
   }
 
+<<<<<<< HEAD
+=======
+ /* transformar() {
+    if (!this.transformado) {
+      this.transformado = true;
+      this.element.src = this.color.src;
+      this.element.classList.add("transformacion");
+      setTimeout(() => {
+        this.element.classList.remove("transformacion");
+      }, 400);
+    }
+  } */
+
+>>>>>>> 8331dc50f85291e8b53d7d3152e765dcded96336
   actualizarPosicion() {
     this.element.style.left = `${this.x}px`;
     this.element.style.top = `${this.y}px`;
